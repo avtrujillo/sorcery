@@ -29,11 +29,7 @@ module Sorcery
       end
 
       def get_request_token
-        if token && secret
-          OAuth::RequestToken.new(get_consumer, token, secret)
-        else
-          get_consumer.get_request_token(oauth_callback: @callback_url)
-        end
+        get_consumer.get_request_token(oauth_callback: @callback_url)
       end
 
       def get_user_hash(_access_token)
