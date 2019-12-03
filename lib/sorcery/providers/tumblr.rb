@@ -4,7 +4,7 @@ module Sorcery
     # aliased to avoid name collision
 
     class Tumblr < Base
-      include Protocols::Oauth2
+      include Protocols::Oauth
 
       def initialize
         super
@@ -48,6 +48,19 @@ module Sorcery
 
       def full_blog_name(blog_name)
         blog_name.include?('.') ? blog_name : "#{blog_name}.tumblr.com"
+      end
+
+      def process_callback(params, session)
+        def process_callback(params, session)
+          args = {
+              oauth_verifier:       params['oauth_verifier'],
+              request_token:        session['request_token'],
+              request_token_secret: session['request_token_secret']
+          }
+
+          args[:code] = params[:code] if params[:code]
+          get_access_token(args)
+        end
       end
 
       #def client(token = nil, token_secret = nil)
