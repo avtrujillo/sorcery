@@ -1,12 +1,10 @@
 module Sorcery
   module Providers
 
-    TumblrClient = Tumblr::Client
     # aliased to avoid name collision
 
     class Tumblr < Base
       include Protocols::Oauth2
-      Client = TumblrClient
 
       def initialize
         super
@@ -18,8 +16,8 @@ module Sorcery
         @user_info_path = "#{@api_site}/v2/blog/"
       end
 
-      def get_access_token
-        get_request_token.get_access_token
+      def access_token
+        @access_token ||= get_request_token.get_access_token
       end
 
       def get_consumer
@@ -34,8 +32,8 @@ module Sorcery
         end
       end
 
-      def get_user_hash(token, token_secret)
-        response = client(token, token_secret).info
+      def get_user_hash(_access_token)
+        response = access_token.get(@user_info_path)
         auth_hash(access_token).tap do |h|
           h[:user_info] = JSON.parse(response.body, symbolize_names: true)
           main_blog_name = h[:user_info][:name]
@@ -44,14 +42,22 @@ module Sorcery
         end
       end
 
-      def client(token = nil, token_secret = nil)
-        Client.new(
-            consumer_key: @key,
-            consumer_secret: @secret,
-            oauth_token: token,
-            oauth_token_secret: token_secret
-        )
+      def blog_path(blog_name, ext)
+        "v2/blog/#{full_blog_name(blog_name)}/#{ext}"
       end
+
+      def full_blog_name(blog_name)
+        blog_name.include?('.') ? blog_name : "#{blog_name}.tumblr.com"
+      end
+
+      #def client(token = nil, token_secret = nil)
+      #  Client.new(
+      #      consumer_key: @key,
+      #      consumer_secret: @secret,
+      #      oauth_token: token,
+      #      oauth_token_secret: token_secret
+      #  )
+      #end
 
     end
   end
