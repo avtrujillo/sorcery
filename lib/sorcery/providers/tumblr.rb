@@ -6,6 +6,8 @@ module Sorcery
     class Tumblr < Base
       include Protocols::Oauth
 
+      attr_reader :user_info_path
+
       def initialize
         super
 
