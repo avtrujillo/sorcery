@@ -53,16 +53,14 @@ module Sorcery
       end
 
       def process_callback(params, session)
-        def process_callback(params, session)
-          args = {
-              oauth_verifier:       params['oauth_verifier'],
-              request_token:        session['request_token'],
-              request_token_secret: session['request_token_secret']
-          }
+        args = {
+            oauth_verifier:       params['oauth_verifier'],
+            request_token:        session['request_token'],
+            request_token_secret: session['request_token_secret']
+        }
 
-          args[:code] = params[:code] if params[:code]
-          get_access_token(args)
-        end
+        args[:code] = params[:code] if params[:code]
+        get_access_token(args)
       end
 
       #def client(token = nil, token_secret = nil)
