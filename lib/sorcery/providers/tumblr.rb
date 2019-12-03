@@ -13,6 +13,7 @@ module Sorcery
 
         @api_site = 'https://api.tumblr.com'
         @auth_site = 'https://www.tumblr.com'
+        @site = @auth_site
         @auth_path = "/oauth/authorize"
         @token_url = "/oauth/access_token"
         @user_info_path = "#{@api_site}/v2/blog/"
