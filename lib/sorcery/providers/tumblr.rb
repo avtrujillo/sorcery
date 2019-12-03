@@ -16,6 +16,10 @@ module Sorcery
         @user_info_path = "#{@api_site}/v2/blog/"
       end
 
+      def login_url
+        get_request_token.authorize_url
+      end
+
       def access_token
         @access_token ||= get_request_token.get_access_token
       end
