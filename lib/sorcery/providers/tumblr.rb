@@ -16,7 +16,7 @@ module Sorcery
         @user_info_path = "#{@api_site}/v2/blog/"
       end
 
-      def login_url
+      def login_url(_params, _session)
         get_request_token.authorize_url
       end
 
