@@ -26,13 +26,13 @@ module Sorcery
         @access_token ||= get_request_token.get_access_token
       end
 
-      def get_consumer
-        ::OAuth::Consumer.new(@key, @secret, site: @auth_site, authorize_path: @auth_path)
-      end
+      #def get_consumer
+      #  ::OAuth::Consumer.new(@key, @secret, site: @auth_site, authorize_path: @auth_path)
+      #end
 
-      def get_request_token
-        get_consumer.get_request_token(oauth_callback: @callback_url)
-      end
+      #def get_request_token
+      #  get_consumer.get_request_token(oauth_callback: @callback_url)
+      #end
 
       def get_user_hash(_access_token)
         response = access_token.get(@user_info_path)
