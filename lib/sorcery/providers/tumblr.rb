@@ -6,7 +6,8 @@ module Sorcery
     class Tumblr < Base
       include Protocols::Oauth
 
-      attr_reader :user_info_path, :auth_path, :auth_site
+      attr_accessor :access_token_path, :authorize_path, :request_token_path,
+                    :user_info_path
 
       def initialize
         super
@@ -19,8 +20,12 @@ module Sorcery
         @user_info_path = "#{@api_site}/v2/blog/"
       end
 
-      def login_url(_params, _session)
-        get_request_token.authorize_url
+      def login_url(_params, session)
+        consumer = ::OAuth::Consumer.new(@key, @secret, site: @site)
+        req_token = get_request_token
+        session[:request_token]         = req_token.token
+        session[:request_token_secret]  = req_token.secret
+        authorize_url(request_token: req_token.token, request_token_secret: req_token.secret)
       end
 
       def access_token
