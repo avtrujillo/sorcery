@@ -16,7 +16,7 @@ module Sorcery
             access_token_path: '/oauth/access_token',
             site: 'https://www.tumblr.com'
         }
-        @user_info_path = '/v2/blog/'
+        @user_info_path = 'https://api.tumblr.com/v2/blog/'
         #@api_site = 'https://api.tumblr.com'
         #@auth_site = 'https://www.tumblr.com'
         #@site = @auth_site
